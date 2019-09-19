@@ -36,41 +36,25 @@ Operations 运维
 
 
 
+Flink 用例：https://flink.apache.org/usecases.html
+    flink功能：
+        support for stream and batch processing 对流和批处理的支持
+        sophisticated state management 复杂状态管理
+        event-time processing semantics 事件-时间处理语义
+        exactly-once consistency guarantees for state 状态的仅此一次的持续性保证
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- Flink 应用场景：
- 	Event-driver Application (事件驱动)
- 欺诈检测
- 		异常检测
- 		基于规则的告警
- 		业务流程监控
- 		Web应用程序（社交网络）
- 		CEP：复杂事件处理
- 	Data Analytics Application（数据分析）
- 周期性查询
- 		连续性查询
- 	Data Pipeline Application （）
- Periodic ETL
- 		Data Pipeline
+    Flink 最常见的应用场景：
+    	Event-driver Application (事件驱动)
+            欺诈检测
+    		异常检测
+    		基于规则的告警
+    		业务流程监控
+    		Web应用程序（社交网络）
+    		CEP：复杂事件处理
+    	Data Analytics Application（数据分析）
+            周期性查询
+    		连续性查询
+    	Data Pipeline Application （）
+            Periodic ETL
+    		Data Pipeline
 
