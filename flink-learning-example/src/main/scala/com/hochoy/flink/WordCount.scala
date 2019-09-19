@@ -59,13 +59,13 @@ object WordCount {
     val topic:String = "action-topic"
     val deserializer: SimpleStringSchema = new SimpleStringSchema()
     val props:Properties = new Properties()
-    props.setProperty("bootstrap.servers", "xxxx:9092");
-    props.setProperty("group.id", "trafficwisdom-streaming");
-    props.put("enable.auto.commit", "false");
-    props.put("max.poll.records", "1000")
-    val consumer = new FlinkKafkaConsumer011[String](topic,deserializer,props)
-    consumer.setStartFromLatest()
-    val stream: DataStream [String] = env.addSource(consumer)
+//    props.setProperty("bootstrap.servers", "xxxx:9092");
+//    props.setProperty("group.id", "trafficwisdom-streaming");
+//    props.put("enable.auto.commit", "false");
+//    props.put("max.poll.records", "10001us")
+//    val consumer = new FlinkKafkaConsumer011[String](topic,deserializer,props)
+//    consumer.setStartFromLatest()
+//    val stream: DataStream [String] = env.addSource(consumer)
 
 
     val text: DataStreamSource[String] = env.readTextFile("D:/advance/bigdata/flink/hochoy-flink-leaning/test_data/test1/test.txt")
