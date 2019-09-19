@@ -1,5 +1,5 @@
-INIT commit
-Architecture 架构
+
+Architecture 架构 https://flink.apache.org/flink-architecture.html
 	Process Unbounded and Bounded Data:有界和无界数据的处理
 	Deploy Applications Anywhere ：能与所有常见的集群资源管理器（如Hadoop YARN，Apache Mesos和Kubernetes）集成
 	Run Applications at any Scale：在多种数据规模下均能运行
@@ -20,12 +20,57 @@ Applications 应用
 			Late Data Handling
 			Processing-time Mode
 	Layered APIs
-		The ProcessFunctions
-		The DataStream API
-		SQL & Table API
+		The ProcessFunctions:                   stateful event-driven Applications
+		The DataStream API(Streams & Windows):  Stream & Batch data Processing
+		SQL & Table API:                        High-Level Analytics API
 	
 	Libraries 库
+	    Complex Event Processing (CEP)
+	    DataSet API
+	    Gelly
+
 	
 	
 Operations 运维
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Flink 应用场景：
+ 	Event-driver Application (事件驱动)
+ 欺诈检测
+ 		异常检测
+ 		基于规则的告警
+ 		业务流程监控
+ 		Web应用程序（社交网络）
+ 		CEP：复杂事件处理
+ 	Data Analytics Application（数据分析）
+ 周期性查询
+ 		连续性查询
+ 	Data Pipeline Application （）
+ Periodic ETL
+ 		Data Pipeline
+
