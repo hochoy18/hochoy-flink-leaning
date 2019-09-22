@@ -8,7 +8,7 @@ Architecture 架构 https://flink.apache.org/flink-architecture.html
 	
 
 
-Applications 应用
+**Applications 应用**
 	Building Blocks for Streaming Applications：流处理应用的基本组件
 		Streams：流 
 			Bounded and unbounded streams
@@ -36,7 +36,7 @@ Operations 运维
 
 
 
-Flink 用例：https://flink.apache.org/usecases.html
+    Flink 用例：https://flink.apache.org/usecases.html
     flink功能：
         support for stream and batch processing 对流和批处理的支持
         sophisticated state management 复杂状态管理
@@ -45,6 +45,9 @@ Flink 用例：https://flink.apache.org/usecases.html
 
     Flink 最常见的应用场景：
     	Event-driver Application (事件驱动)
+    	    事件驱动型应用是一种有状态的应用，他从一个或多个事件流提取数据，并根据提取到来的数据触发计算、状态更新或者外部action。
+    	    事件驱动型应用是一次计算和数据存储层分离的传统应用设计的演变。在此架构中，应用程序能从远程传统交易数据库中读取数据也能将数据持久化到传统库中。
+    	    相反，事件驱动型应用是基于有状态的流处理应用，在此设计中，数据和计算协同定位，这将产生局部的数据（基于内存或磁盘）访问。通过阶段性地将将  将checkpoint写入远程持久化存储来实现容错，
             欺诈检测
     		异常检测
     		基于规则的告警
