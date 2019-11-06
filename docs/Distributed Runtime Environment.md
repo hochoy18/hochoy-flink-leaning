@@ -1,4 +1,4 @@
-Tasks and Operator Chains
+## Tasks and Operator Chains
 flink 把 operator 子任务关联到一起形成任务集(tasks), 每一个task由一个线程执行。operator 和 task 的关联
 是一项很实用的优化：它降低了线程间切换和缓冲的负荷，降低延迟的同时增加了吞吐。该关联可以配置，详情[see it](https://ci.apache.org/projects/flink/flink-docs-release-1.9/dev/stream/operators/#task-chaining-and-resource-groups)
 
@@ -9,7 +9,7 @@ flink 把 operator 子任务关联到一起形成任务集(tasks), 每一个task
 ```
 
 
-Job Managers, Task Managers, Clients
+## Job Managers, Task Managers, Clients
 
 flink 运行时包括两种流程类型：
 - JobManagers （也称为masters）,协调分布式任务的执行。可以调度任务，协调checkpoint 和 失败任务的恢复 等。  
@@ -31,7 +31,7 @@ flink 运行时包括两种流程类型：
  
  
  
- Task Slots and Resources
+## Task Slots and Resources
  
  每个worker（TaskManager）就是一个JVM进程，会在独立的线程中执行一个或多个subtask， 每个worker至少有一个能控制接收多少个task的 task slot。
  每个 task slot 代表TaskManager资源的固定子集。例如：具有三个task slot 的TaskManager会将其管理的内存资源分成三等分给每个 slot。 
@@ -52,6 +52,21 @@ flink 运行时包括两种流程类型：
  
     <img src="https://ci.apache.org/projects/flink/flink-docs-release-1.9/fig/slot_sharing.svg" width="60%">
  
+[Flink 原理与实现：理解 Flink 中的计算资源](https://yq.aliyun.com/articles/64819) 
+ - operator 就能 chain 一起的条件：
+    - 上下游的并行度一致
+    - 下游节点的入度为一（也就是说，下游节点没有来自其他节点的输入）
+    - 上下游节点都在同一个 slot group 中
+    - 下游节点的chain 策略为 ALWAYS（可以与上下游链接，map,flatmap,filter 等默认是 ALWAYS） 
+    - 上有节点的chain 策略为 ALWAYS 或 HEAD（只能与下游链接，不能与下游链接，Source 默认是HEAD）
+    - 两个节点间数据分区方式是forward
+    - 用户没有禁用 chain。
+ 
+ 
+ 
+ [Flink Slot详解与Job Execution Graph优化](https://segmentfault.com/a/1190000019987618)
+ 
+https://blog.csdn.net/dajiangtai007/article/details/88640718 
  
  
  
@@ -63,4 +78,24 @@ flink 运行时包括两种流程类型：
  例如：你可以使用someStream.map(...).startNewChain(),但是不能使用someStream.startNewChain().
  
  在flink中，一个资源组（resource group）就是一个slot。see [slots](https://ci.apache.org/projects/flink/flink-docs-release-1.9/ops/config.html#configuring-taskmanager-processing-slots)。如果有必要，你可以手动将这些算子隔离在单独的slot 中。
+
+
+## State Backends
+
+
+
+## Savepoints
+
+
+
+
+
+
+
+
+
+
+
+
+
 
