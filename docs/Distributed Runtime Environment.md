@@ -34,18 +34,18 @@ flink 运行时包括两种流程类型：
  Task Slots and Resources
  
  每个worker（TaskManager）就是一个JVM进程，会在独立的线程中执行一个或多个subtask， 每个worker至少有一个能控制接收多少个task的 task slot。
- 每个 task slot 代表TaskManager资源的固定子集。例如：具有三个task slot 的TaskManager会将其托管内存的1/3专用于每个 slot。 
- 资源分配就意味着 ，一个 subtask 将不会和其他job中的subtask竞争托管内存，而是拥有一定数量的预留托管内存。
- 值得注意的是，此处没有CPU的隔离，现在的slot仅仅是将 task的 管理内存分开（也就是说，各个subtask之间的CPU会有竞争）。
+ 每个 task slot 代表TaskManager资源的固定子集。例如：具有三个task slot 的TaskManager会将其管理的内存资源分成三等分给每个 slot。 
+ 划分资源就意味着 subtask 间不会竞争资源，但是也就意味着他们只拥有固定的资源。
+ 注意这里没有CPU的隔离，当前slot只是划分任务的内存资源。
  
- 用户可以通过调整 task slot的数量来定义如何将 subtask 彼此隔离。
+ 用户可以通过调整 task slot的数量来决定 subtask 隔离方式。
  - 每个 TaskManager有一个或多个 slot 的区别 
-    - 每个taskmanager 分配一个 slot就意味着每一个task group 在单独的JVM中运行。 （例如：也可以在单独的container中启动）。
-    - 每个taskmanager 有多个 slot 意味着 多个subtask 共享一个JVM进程。共享同一个JVM的task也共享相同的TCP连接（以多路复用的形式）、心跳消息（heartbeat messages）、数据集和数据结构，因此可以减少每个任务的开销。
+    - 每个 TaskManager  有一个slot 意味着每组task 在一个单独的JVM中运行。 （例如：也可以在单独的container中启动）。
+    - 拥有多个 slot 意味着 多个subtask 共享一个JVM进程。共享同一个JVM的   task 也共享相同的TCP连接（以多路复用的形式）、心跳消息（heartbeat messages）、数据集和数据结构，因此可以减少每个任务的开销。
   <img src="https://ci.apache.org/projects/flink/flink-docs-release-1.9/fig/tasks_slots.svg" width="60%" >
  
  
-  默认情况下，flink 中，只要subtask是在一个job中，都可以共享 slot，即使是不同task的subtask。也就是说，一个slot是可以容纳整个job的工作流（pipeline）的。
+  默认情况下，flink 允许subtasks 共享 slot中，即使是不同task的subtask，只要subtask是在一个job中。也就是说，一个slot是可能会负责这个job的整个管道（pipeline）。
   slot共享有两个好处：
      - 由于flink 集群所需的slot数 与job中使用的最高并行度的数量一样多。因此就无须计算一个程序总共包含多少个 task。
      - 更容易获取更好的资源利用率，slot不共享时，非密集型 的source/map() 子任务将阻塞与资源密集型窗口子任务一样多的资源。
@@ -55,3 +55,12 @@ flink 运行时包括两种流程类型：
  
  
  
+### [Task chaining and resource groups](https://ci.apache.org/projects/flink/flink-docs-release-1.9/dev/stream/operators/#task-chaining-and-resource-groups) 
+为获得更好的性能，我们会将两个 transformations 链在一起，也就就相当于将这两个 transformation 放在同一个线程中执行。只要可能，flink会默认的将这些operator 链在一起，例如，两个map 转换。
+如果需要，API也可以更细粒度地对链接进行控制：
+ 如果你不想将整个job链起来，可以使用 StreamExecutionEnvironment.disableOperatorChaining()进行控制。
+ 对于更多细粒度的控制，可以使用一下函数进行控制。值得注意的是这些函数只能用在DataStream 经过transformation之后才能使用。因为他们引用的是之前的transformation。
+ 例如：你可以使用someStream.map(...).startNewChain(),但是不能使用someStream.startNewChain().
+ 
+ 在flink中，一个资源组（resource group）就是一个slot。see [slots](https://ci.apache.org/projects/flink/flink-docs-release-1.9/ops/config.html#configuring-taskmanager-processing-slots)。如果有必要，你可以手动将这些算子隔离在单独的slot 中。
+
