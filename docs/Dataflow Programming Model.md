@@ -64,19 +64,19 @@ More window examples can be found in this blog post. More details are in the win
 
 ##Time
 提到streaming 程序的时间时（例如定义窗口），有以下几种概念可以参考：
- - Event Time：即事件创建的时间，
- - Ingestion time ：事件通过source 算子进入 flink 的时间
+ - Event Time：即事件创建的时间。通常用事件中的时间戳表示，例如会被生产传感器或者生产服务附带。
+ - Ingestion time ：事件通过source 算子进入 flink 的时间,
  - Processing Time：每个算子执行基于时间的操作的本地时间(？？？是否类似于spark程序 在executor 上的执行时间)
  
  <img src="https://ci.apache.org/projects/flink/flink-docs-release-1.9/fig/event_ingestion_processing_time.svg" width="60%" bgcolor="white">
  
- More details on how to handle time are in the event time docs.
+ More details on how to handle time are in the [event time docs](https://gitbook.cn/m/mazi/comp/column?columnId=5dad4a20669f843a1a37cb4f&sceneId=3da0e320046a11ea882fbf9ba8c963fb&utm_source=columninvitecard&utm_campaign=%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AE%9E%E6%97%B6%E8%AE%A1%E7%AE%97%E5%BC%95%E6%93%8E%20Flink%20%E5%AE%9E%E6%88%98%E4%B8%8E%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96).
 
 
 
 
-## Stateful Operations
-
+## Stateful Operations(有状态的操作)
+ 
 
 
 
@@ -87,7 +87,7 @@ flink通过 stream replay 和 checkpointing 的组合来实现容错。
 
 
 ## Batch on Streaming
-flink 把批处理当做是 streaming处理的一种特殊形式，在批处理中，stream是有界的（元素个数有限）。其内部DataSet也是按照 stream 来处理的。因此以上这些适用于streaming 的概念也同样适用于 
+flink 把 Batch 处理当做是 streaming 处理的一种特殊形式，在批处理中，stream是有界的（元素个数有限）。其内部DataSet也是按照 stream 来处理的。因此以上这些适用于streaming 的概念也同样适用于 
 batch 处理，除了一下几点之外：
 - batch program 的容错不使用checkpoint，它是通过回放整个流来恢复的。由于输入的有界性，这也就称为可能。着虽然增加了恢复的成本但是也同时降低了常规操作的成本，因为它避免了checkpoints。
 
