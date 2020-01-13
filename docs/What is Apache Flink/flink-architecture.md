@@ -18,10 +18,12 @@
 ## Run Applications at any Scale（极高的可伸缩性）
 - 可被并行化为数千个task，这些task 分布在集群中并发执行，可以充分利用无尽的 CPU、内存、磁盘和网络 IO，
  Flink 容易维护非常大的应用程序状态
-
-- 处理每天处理数万亿的事件,
-- 应用维护几TB大小的状态,
-- 应用在数千个内核上运行。
+ Flink 异步和增量的checkpoint 算法使得处理延迟降到最低同时也可保证exactly-once state的一致性（consistency）
+ 
+- Flink 用户报告了其生产环境中一些令人印象深刻的扩展性数字
+   - 处理每天处理数万亿的事件,
+   - 应用维护几TB大小的状态,
+   - 应用在数千个内核上运行。
 
 
 
@@ -31,5 +33,5 @@
 - 本地状态访问进行了优化
 - (Task state 维护：内存优先) Task state  is always maintained in memory  or, if the state size exceeds the available memory, in access-efficient on-disk data structures. 
    - 任务通过访问 通常处于内存中 的状态 来执行所有计算，从而产生非常低的处理延迟( Hence, tasks perform all computations by accessing local, often in-memory, state yielding very low processing latencies.)
-- Flink 通过定期和异步地对本地状态进行持久化存储来保证故障场景下精确一次的状态一致性(Flink guarantees exactly-once state consistency in case of failures by periodically and asynchronously checkpointing the local state to durable storage.)
-
+- Flink 通过**定期和异步**地对本地状态进行**持久化存储**来保证**故障场景**下**精确一次的状态一致性**(Flink guarantees exactly-once state consistency in case of failures by periodically and asynchronously checkpointing the local state to durable storage.)
+<img src="https://flink.apache.org/img/local-state.png" width="60%"  div align=right  />
