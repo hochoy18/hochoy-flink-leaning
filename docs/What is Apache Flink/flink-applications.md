@@ -17,20 +17,30 @@
 
 - state的必要性：每一个具有一定复杂度的流处理应用都是有状态的
 - state的作用 ： 任意运行基本业务逻辑的流处理都需要在***一定时间内存储（remember）所接收的事件或中间结果***，以供在<u>后续的某个时间点</u>（例如收到下一个事件或者经过一段特定时间）<u>进行访问并进行后续处理</u>。
+<img src="https://flink.apache.org/img/function-state.png" width= "60%">
 - state的重要性：应用状态是 Flink 中的一等公民，Flink 提供了许多状态管理相关的特性支持
-   - Multiple State Primitives(多状态基元)：flink为像atomic values, lists, or maps 等的不同的数据结构提供 State Primitive
-   - 插件化的State Backend： state backend 负责管理 应用程序的 State，并在需要的时候进行checkpoint，
-   - Exactly-once state consistency
-   - 超大数据量状态(Very Large State)
-   - 可弹性伸缩的应用 
+   - **Multiple State Primitives(多状态基元)**：flink为像atomic values, lists, or maps 等的不同的数据结构提供 State Primitive
+   - **插件化的State Backend**： state backend 负责管理 应用程序的 State，并在需要的时候进行checkpoint，
+   - **Exactly-once state consistency**
+   - **超大数据量状态(Very Large State)**
+   - **超大数据量状态(Very Large State)**
    
    
 ### Time
+时间是流处理应用的另一个重要组成部分。大部分的事件流固有时间语义，因为每个事件都会在某一个特定的时间点产生。此外，许多常见的流也是基于时间计算的，像窗口聚合，session，模式检测（pattern detection），以及基于时间的JOIN等。
+流处理的的其中一个重要方面就是应用如何测量时间，例如，事件时间和处理时间的差异
+
+Flink提供了
+- **Event-time 模式**：
+- **watermark 支持**：
+- **Late Data 处理**：
+- **Processing-time 模式**：
 
 
 
 ### Layered APIs
 
+<img src="https://flink.apache.org/img/api-stack.png" width="60%">
 
 
 ### The ProcessFunctions
