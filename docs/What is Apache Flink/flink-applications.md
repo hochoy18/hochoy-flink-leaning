@@ -17,7 +17,9 @@
 
 - state的必要性：每一个具有一定复杂度的流处理应用都是有状态的
 - state的作用 ： 任意运行基本业务逻辑的流处理都需要在***一定时间内存储（remember）所接收的事件或中间结果***，以供在<u>后续的某个时间点</u>（例如收到下一个事件或者经过一段特定时间）<u>进行访问并进行后续处理</u>。
+
 <img src="https://flink.apache.org/img/function-state.png" width= "60%">
+
 - state的重要性：应用状态是 Flink 中的一等公民，Flink 提供了许多状态管理相关的特性支持
    - **Multiple State Primitives(多状态基元)**：flink为像 atomic values, lists, or maps 等的不同的数据结构提供 State Primitive
    - **插件化的State Backend**： state backend 负责管理 应用程序的 State，并在需要的时候进行checkpoint，
@@ -39,21 +41,35 @@ Flink提供了一组丰富的跟时间相关的功能：
 
 
 ## Layered APIs
-
+Flink 根据抽象程度分层，提供了三种不同的 API。每一种 API 在简洁性和表达力上有着不同的侧重，并且针对不同的应用场景。
 <img src="https://flink.apache.org/img/api-stack.png" width="60%">
 
 
 ### The ProcessFunctions
-
+~~~
+该层API 类似于 spark 的RDD
+~~~
 
 ### The DataStream API
+~~~
+该层 API 类似于 spark 的DataSets/DataFrames
+~~~ 
 
 
 
 
 ### SQL & Table API
+~~~
+该层类似于 Spark SQL
+~~~
 
 
 
-
-## Libraries
+## Libraries    
+```
+该层类似于 Spark 的 MLlib for machine learning, GraphX。
+```
+- **Complex Event Processing (CEP)**:
+- **DataSet API**:
+- **Gelly** :
+    
