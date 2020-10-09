@@ -18,6 +18,7 @@
         <scala.version>2.11.8</scala.version>
         <compiler.version>1.8</compiler.version>
         <flink.version>1.11.2</flink.version>
+        <elasticsearch.version>7.8.0</elasticsearch.version>
         <java.version>1.8</java.version>
         <scala.binary.version>2.11</scala.binary.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -130,6 +131,64 @@
                 <artifactId>joda-time</artifactId>
                 <version>2.9.9</version>
             </dependency>
+
+
+
+            <!-- https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch -->
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch-core -->
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch-core</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch-cli -->
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch-cli</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-client</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.elasticsearch.client/transport -->
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>transport</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch-hadoop -->
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch-hadoop</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch-spark-20 -->
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch-spark-20_${scala.binary.version}</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
+
+
+
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
