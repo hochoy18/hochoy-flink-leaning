@@ -19,7 +19,7 @@
         <compiler.version>1.8</compiler.version>
         <flink.version>1.11.2</flink.version>
         <!--<elasticsearch.version>7.8.0</elasticsearch.version>-->
-        <elasticsearch.version>6.4.3</elasticsearch.version>
+        <elasticsearch.version>7.6.1</elasticsearch.version>
         <java.version>1.8</java.version>
         <scala.binary.version>2.11</scala.binary.version>
         <maven.compiler.source>1.8</maven.compiler.source>
