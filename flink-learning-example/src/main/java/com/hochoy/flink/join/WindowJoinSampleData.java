@@ -1,6 +1,6 @@
 package com.hochoy.flink.join;
 
-import com.hochoy.flink.utils.ThrottledIterator;
+import com.hochoy.utils.ThrottledIterator;
 import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.tuple.Tuple2;

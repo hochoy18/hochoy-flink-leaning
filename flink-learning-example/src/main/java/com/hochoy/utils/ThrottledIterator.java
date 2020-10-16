@@ -1,4 +1,4 @@
-package com.hochoy.flink.utils;
+package com.hochoy.utils;
 
 import java.io.Serializable;
 import java.util.Iterator;
