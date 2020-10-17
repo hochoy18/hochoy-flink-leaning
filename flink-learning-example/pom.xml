@@ -6,7 +6,7 @@
         <artifactId>hochoy-flink-learning</artifactId>
         <groupId>com.hochoy.flink</groupId>
         <version>1.0.0</version>
-        <relativePath/>
+        <!--<relativePath/>-->
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>flink-learning-example</artifactId>
