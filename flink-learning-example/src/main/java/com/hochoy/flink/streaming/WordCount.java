@@ -1,5 +1,7 @@
 package com.hochoy.flink.streaming;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONAware;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.flink.api.common.functions.RichFlatMapFunction;
@@ -17,6 +19,7 @@ import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer011;
 import org.apache.flink.util.Collector;
 
 import java.util.Arrays;
@@ -40,22 +43,74 @@ public class WordCount {
                 String host = tool.get("host");
                 int port = tool.getInt("port");
                 socket(host,port);
-            case "kafka":
+                break;
+            case "kafka": {
                 /**
                  * --type kafka --bootstrap.server localhost:9092  --topic part3-topic
                  */
                 String bootstrapServer = tool.get("bootstrap.server");
                 String topic = tool.get("topic");
                 Properties props = new Properties();
-                props.setProperty("bootstrap.servers",bootstrapServer);
-                props.setProperty("group.id","kafka-demo");
-                kafka(topic,props);
+                props.setProperty("bootstrap.servers", bootstrapServer);
+                props.setProperty("group.id", "kafka-demo");
+                kafka(topic, props);
+                break;
+            }
+
+            case "sinkKafka": {
+                /**
+                 *  // flink-sink-topic
+                 *  --type sinkKafka --bootstrap.server localhost:9092  --sourceTopic part3-topic --sinkTopic flink-sink-topic
+                 */
+                String sourceTopic = tool.get("sourceTopic");
+                String bootstrapServer = tool.get("bootstrap.server");
+                String sinkTopic = tool.get("sinkTopic");
+
+                Properties props = new Properties();
+                props.setProperty("bootstrap.servers", bootstrapServer);
+                props.setProperty("group.id", "kafka-demo");
+                kafkaSink(props, sinkTopic, sourceTopic);
+                break;
+            }
 
         }
         streamEnv.execute(WordCount.class.getName() + "-" + type);
 
 
 
+    }
+
+
+    private static void kafkaSink(Properties props,String sinkTopic,String sourceTopic){
+        DataStreamSource<String> source = streamEnv.addSource(new FlinkKafkaConsumer011<>(
+                sourceTopic, new SimpleStringSchema(),
+                props
+        ));
+//        source.print();
+
+        SingleOutputStreamOperator<Tuple3<String, String, Integer>> map = source.filter(e -> e != null && !e.trim().equals(""))
+                .map(JSON::parseObject)
+                .map(e -> Tuple3.of(e.getString("subject"), e.getString("name"), e.getIntValue("score")))
+                .returns(Types.TUPLE(Types.STRING,Types.STRING,Types.INT));
+//        map.print();
+        SingleOutputStreamOperator<Tuple2<String, Integer>> subjectSum =
+                map.map(e -> Tuple2.of(e.f0, e.f2)).returns(Types.TUPLE(Types.STRING,Types.INT))
+                        .keyBy(0)
+                        .sum(1)
+                        .returns(Types.TUPLE(Types.STRING,Types.INT));
+
+        SingleOutputStreamOperator<String> res1 = subjectSum.map(e -> {
+            JSONObject jo = new JSONObject();
+            jo.put("subject", e.f0);
+            jo.put("score", e.f1);
+            return jo;
+        }).map(JSONAware::toJSONString).returns(Types.STRING);
+
+        res1.print();
+        res1.addSink(new FlinkKafkaProducer011<>(
+                props.getProperty("bootstrap.servers"),
+                sinkTopic,
+                new SimpleStringSchema()));
     }
 
     private static void kafka(String topic, Properties properties){
