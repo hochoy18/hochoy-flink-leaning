@@ -43,13 +43,11 @@ public class WordCount {
 
         DataStreamSource<String> source = streamEnv.socketTextStream(host, port, "\n");
 
-        System.out.println("==================> source");
         source.print();
-        System.out.println("==================> source");
         SingleOutputStreamOperator<String> words = source.flatMap(new RichFlatMapFunction<String, String>() {
             @Override
             public void flatMap(String value, Collector<String> out) throws Exception {
-                Arrays.stream(value.split(" "))
+                Arrays.stream(value.trim().split("\\s+"))
                         .forEach(out::collect);
             }
         });
