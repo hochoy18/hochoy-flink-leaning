@@ -14,8 +14,8 @@ import java.util.concurrent.Future;
 public class KafkaProducerAnalysis {
 
 
-    static int MSG_SIZE = (int)1e4;
-    static String TOPIC = "part3-topic";
+    private static int MSG_SIZE = (int)1e4;
+    private static String TOPIC = "part3-topic";
 
     public static void main(String[] args) {
 

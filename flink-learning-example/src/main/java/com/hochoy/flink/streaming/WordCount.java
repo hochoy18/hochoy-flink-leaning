@@ -11,6 +11,7 @@ import org.apache.flink.api.java.tuple.Tuple;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
@@ -58,7 +59,9 @@ public class WordCount {
     }
 
     private static void kafka(String topic, Properties properties){
-        DataStreamSource<String> source = streamEnv.addSource(new FlinkKafkaConsumer011<String>(
+        streamEnv.enableCheckpointing(5000, CheckpointingMode.EXACTLY_ONCE);
+
+        DataStreamSource<String> source = streamEnv.addSource(new FlinkKafkaConsumer011<>(
                 topic, new SimpleStringSchema(),
                 properties
         ));
