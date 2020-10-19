@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 maven的mvn dependency依赖分析和常用命令介绍
 https://www.jianshu.com/p/516d8a5368e5
 
