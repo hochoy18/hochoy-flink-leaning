@@ -46,9 +46,9 @@ public class WordCount {
                 break;
             case "kafka": {
                 /**
-                 * --type kafka --bootstrap.server localhost:9092  --topic part3-topic
+                 * --type kafka --bootstrap.servers localhost:9092  --topic part3-topic
                  */
-                String bootstrapServer = tool.get("bootstrap.server");
+                String bootstrapServer = tool.get("bootstrap.servers");
                 String topic = tool.get("topic");
                 Properties props = new Properties();
                 props.setProperty("bootstrap.servers", bootstrapServer);
@@ -60,10 +60,10 @@ public class WordCount {
             case "sinkKafka": {
                 /**
                  *  // flink-sink-topic
-                 *  --type sinkKafka --bootstrap.server localhost:9092  --sourceTopic part3-topic --sinkTopic flink-sink-topic
+                 *  --type sinkKafka --bootstrap.servers localhost:9092  --sourceTopic part3-topic --sinkTopic flink-sink-topic
                  */
                 String sourceTopic = tool.get("sourceTopic");
-                String bootstrapServer = tool.get("bootstrap.server");
+                String bootstrapServer = tool.get("bootstrap.servers");
                 String sinkTopic = tool.get("sinkTopic");
 
                 Properties props = new Properties();
