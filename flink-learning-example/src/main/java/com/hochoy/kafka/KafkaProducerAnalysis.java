@@ -21,7 +21,6 @@ public class KafkaProducerAnalysis {
 
     private final static int MSG_SIZE = (int) 1e4;
     private static Random random = new Random();
-    private static DecimalFormat df = new DecimalFormat("#.00");
     private static Properties props = HochoyUtils.getProperties("producer.properties");
 
     private static KafkaProducer<String, String> producer = new KafkaProducer<>(props);
@@ -90,7 +89,7 @@ public class KafkaProducerAnalysis {
         tags.put("cluster", "hcohoy");
         tags.put("host_ip", ips[random.nextInt(ipLen)]);
 
-        df = new DecimalFormat("#.00");
+        DecimalFormat df = new DecimalFormat("#.00");
         double percent = random.nextDouble();
 
         fields.put("used_percent", df.format(percent * 100) + "%");
