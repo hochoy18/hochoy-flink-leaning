@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hochoy-flink-common</artifactId>
+    <artifactId>flink-learning-common</artifactId>
 
     <dependencies>
         <dependency>
