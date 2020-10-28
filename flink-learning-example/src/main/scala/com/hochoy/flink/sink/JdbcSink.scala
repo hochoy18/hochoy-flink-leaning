@@ -7,13 +7,14 @@ import java.sql.{Connection, DriverManager, PreparedStatement, SQLException}
 import com.alibaba.fastjson.{JSON, JSONObject}
 import com.hochoy.utils.HochoyUtils
 
-class JdbcSink[String] extends RichSinkFunction[JSONObject] {
+class JdbcSink[IN] extends RichSinkFunction[IN] {
 
 
   var ps: PreparedStatement = _
   var connection: Connection = _
 
-  override  def invoke(value: JSONObject, context: SinkFunction.Context[_]): Unit = {
+  override  def invoke(in: IN, context: SinkFunction.Context[_]): Unit = {
+    val value: JSONObject = in.asInstanceOf[JSONObject]
 
 
    if (value != null){
