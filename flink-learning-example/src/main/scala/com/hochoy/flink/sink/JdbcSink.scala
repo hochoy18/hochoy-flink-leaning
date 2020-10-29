@@ -1,11 +1,11 @@
 package com.hochoy.flink.sink
 
-import org.apache.flink.configuration.Configuration
-import org.apache.flink.streaming.api.functions.sink.{RichSinkFunction, SinkFunction}
 import java.sql.{Connection, DriverManager, PreparedStatement, SQLException}
 
-import com.alibaba.fastjson.{JSON, JSONObject}
+import com.alibaba.fastjson.JSONObject
 import com.hochoy.utils.HochoyUtils
+import org.apache.flink.configuration.Configuration
+import org.apache.flink.streaming.api.functions.sink.{RichSinkFunction, SinkFunction}
 
 class JdbcSink[IN] extends RichSinkFunction[IN] {
 
