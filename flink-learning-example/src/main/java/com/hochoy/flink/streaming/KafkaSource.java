@@ -1,35 +1,38 @@
 package com.hochoy.flink.streaming;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
-import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.api.common.typeinfo.Types;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-//import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
 
-import java.nio.charset.Charset;
 import java.util.Properties;
+
 
 public class KafkaSource {
     public static void main(String[] args) throws Exception {
-        StreamExecutionEnvironment env =  StreamExecutionEnvironment.getExecutionEnvironment();
+        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        String topic  = "";
+        String topic = "part3-topic";
         Properties props = new Properties();
-        props.put("bootstrap.servers","172.172.177.70:9092,172.172.177.72:9092,172.172.177.73:9092");
-//        props.put("zookeeper.connect", parameterTool.get("");
-        props.put("group.id","k_interface_call");
-        props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        props.put("auto.offset.reset", "latest");
+        props.put("bootstrap.servers", "localhost:9092");
+        props.put("group.id", "k_interface_call");
 
-
-
-//
-//        FlinkKafkaConsumer010  consumer = new FlinkKafkaConsumer010<>(
-//                topic,
-//                new SimpleStringSchema(Charset.forName("UTF-8")),
-//                props);
-
+        DataStreamSource<String> source = env.addSource(new FlinkKafkaConsumer011<>(topic, new SimpleStringSchema(), props));
+        SingleOutputStreamOperator<JSONObject> map = source
+                .filter((record) -> null != record && !"".equals(record))
+                .map(JSON::parseObject);
+        SingleOutputStreamOperator<Tuple2<String, Integer>> map1 = map.map(record -> {
+            String type = record.getString("type");
+            JSONObject data = record.getJSONObject("data");
+            System.out.println("data>>>>>>>>>>>>>>>  " + data.toJSONString());
+            return Tuple2.of(type, 1);
+        }).returns(Types.TUPLE(Types.STRING, Types.INT));
+        map1.print();
 
         env.execute("flink learning connectors kafka");
     }
