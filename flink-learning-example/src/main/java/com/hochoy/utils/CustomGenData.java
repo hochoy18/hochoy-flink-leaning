@@ -8,10 +8,28 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.StringJoiner;
 
 public class CustomGenData {
-    private static Random random = new Random();
-    private static String genScore() {
+    private static final Random random = new Random();
+
+    public static String genWordCount(){
+        String[] bigData = new String[]{
+                "Ambari","Camel","CarbonData" ,"DolphinScheduler","Druid","Dubbo","Flink","Flume","Hadoop",
+                "HBase","Hive","Iceberg","Impala","Kafka","Kudu","Spark","ZooKeeper"
+        };
+        int start = random.nextInt(7);
+        int len = start + random.nextInt(bigData.length - start);
+        StringJoiner joiner = new StringJoiner(" ");
+        for (int i = start; i < len; i++) {
+            joiner.add(bigData[i]);
+        }
+
+        return joiner.toString();
+    }
+
+
+    public static String genScore() {
         String[] dan = new String[]{"李", "王", "张", "刘", "陈", "杨", "赵", "黄", "周", "吴", "徐", "孙", "胡", "朱", "高", "林", "何", "郭", "马", "罗"};
         String[] fu = new String[]{"司马", "上官", "欧阳", "夏侯", "诸葛", "闻人", "南宫", "西门", "东门", "左丘", "梁丘"};
         String[] ming = new String[]{"凯瑞", "健雄", "耀杰", "潇然", "子涵", "越彬", "钰轩", "智辉", "致远", "俊驰", "雨泽", "烨磊", "晟睿", "文昊", "修洁", "黎昕", "向澜", "宇萧", "星皓", "潇咏", "风明", "成林", "崇宁", "思元", "云浩", "宇鸿"};
@@ -27,7 +45,7 @@ public class CustomGenData {
         return jo.toJSONString();
     }
 
-    private static String genMetric() {
+    public static String genMetric() {
         Metric metric = new Metric();
         metric.setTimestamp(System.currentTimeMillis());
         metric.setName("mem");
