@@ -3,7 +3,6 @@ package com.hochoy.flink.sources;
 import com.hochoy.common.EnumType;
 import com.hochoy.utils.CustomGenData;
 import com.hochoy.utils.HochoyUtils;
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_HARD_LIGHTPeer;
 import org.apache.flink.streaming.api.functions.source.ParallelSourceFunction;
 
 import java.util.Random;
@@ -43,8 +42,8 @@ public class CustomStreamingSource implements ParallelSourceFunction<String> {
             }
 
             ctx.collect(data);
-            HochoyUtils.sleep(500);
-            if (count == 100) {
+            HochoyUtils.sleep(1000);
+            if (count == 10) {
                 cancel();
             }
             count++;
