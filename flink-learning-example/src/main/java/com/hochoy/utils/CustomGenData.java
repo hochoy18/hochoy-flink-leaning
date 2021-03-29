@@ -15,10 +15,9 @@ public class CustomGenData {
 
     public static String genWordCount(){
         String[] bigData = new String[]{
-                "Ambari","Camel","CarbonData" ,"DolphinScheduler","Druid","Dubbo","Flink","Flume","Hadoop",
-                "HBase","Hive","Iceberg","Impala","Kafka","Kudu","Spark","ZooKeeper"
+                "Flink","Hadoop", "Kafka","Kudu","Spark","ZooKeeper"
         };
-        int start = random.nextInt(7);
+        int start = random.nextInt(4);
         int len = start + random.nextInt(bigData.length - start);
         StringJoiner joiner = new StringJoiner(" ");
         for (int i = start; i < len; i++) {
@@ -77,9 +76,9 @@ public class CustomGenData {
             case "score":
                 data = genScore();
                 break;
-            case "metric":
-                data = genMetric();
-                break;
+            case "word_count":
+                data = genWordCount();
+                return data;
             default:
                 data = genMetric();
                 break;

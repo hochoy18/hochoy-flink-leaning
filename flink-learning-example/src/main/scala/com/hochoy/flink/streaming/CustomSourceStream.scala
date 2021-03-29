@@ -3,7 +3,9 @@ package com.hochoy.flink.streaming
 import com.hochoy.common.EnumType
 import com.hochoy.flink.sources.CustomStreamingSource
 import org.apache.flink.streaming.api.scala._
+import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows
 
+import org.apache.flink.streaming.api.windowing.time.Time
 
 
 object CustomSourceStream {
@@ -30,7 +32,10 @@ object CustomSourceStream {
       .map( WordCount(_, 1))
     wordCounts.print("WordCount           >    ")
 
-    val count: DataStream[WordCount] = wordCounts.keyBy("word").sum("count")
+    val count: DataStream[WordCount] = wordCounts.keyBy(_.word)
+      .window(TumblingProcessingTimeWindows.of(Time.seconds(5)))
+      .sum("count")
+
 
     count.print("count .......... _ ")
 

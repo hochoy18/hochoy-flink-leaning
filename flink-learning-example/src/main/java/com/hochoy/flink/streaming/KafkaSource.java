@@ -17,22 +17,31 @@ public class KafkaSource {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        String topic = "part3-topic";
+        String topic = "hochoy_flink";
         Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
-        props.put("group.id", "k_interface_call");
+        props.put("group.id", "flink-kafka-demo");
 
         DataStreamSource<String> source = env.addSource(new FlinkKafkaConsumer011<>(topic, new SimpleStringSchema(), props));
         SingleOutputStreamOperator<JSONObject> map = source
                 .filter((record) -> null != record && !"".equals(record))
                 .map(JSON::parseObject);
-        SingleOutputStreamOperator<Tuple2<String, Integer>> map1 = map.map(record -> {
+        SingleOutputStreamOperator<Tuple2<String, Double>> map1 = map.map(record -> {
             String type = record.getString("type");
             JSONObject data = record.getJSONObject("data");
             System.out.println("data>>>>>>>>>>>>>>>  " + data.toJSONString());
-            return Tuple2.of(type, 1);
-        }).returns(Types.TUPLE(Types.STRING, Types.INT));
+
+            String name = data.getString("name");
+            JSONObject fields = data.getJSONObject("fields");
+            Double max = fields.getDouble("max");
+
+            return Tuple2.of(name,max);
+        }).returns(Types.TUPLE(Types.STRING, Types.DOUBLE));
+
         map1.print();
+
+        SingleOutputStreamOperator<Tuple2<String, Double>> max = map1.keyBy(0).max(1);
+        max.print("max >>>>>>   ");
 
         env.execute("flink learning connectors kafka");
     }
