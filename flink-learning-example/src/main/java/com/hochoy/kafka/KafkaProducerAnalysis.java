@@ -48,7 +48,7 @@ public class KafkaProducerAnalysis {
                     recordMetadata = future.get();
                     long offset = recordMetadata.offset();
 //                System.out.println("==========================" + offset);
-                    HochoyUtils.sleep(1000);
+                    HochoyUtils.sleep(3000);
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }

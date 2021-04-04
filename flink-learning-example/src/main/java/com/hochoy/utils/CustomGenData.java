@@ -17,10 +17,10 @@ public class CustomGenData {
         String[] bigData = new String[]{
                 "Flink","Hadoop", "Kafka","Kudu","Spark","ZooKeeper"
         };
-        int start = random.nextInt(4);
-        int len = start + random.nextInt(bigData.length - start);
+        int start = random.nextInt(6);
+        //int len = start + random.nextInt(bigData.length - start);
         StringJoiner joiner = new StringJoiner(" ");
-        for (int i = start; i < len; i++) {
+        for (int i = start; i < bigData.length; i++) {
             joiner.add(bigData[i]);
         }
 
