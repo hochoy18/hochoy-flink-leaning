@@ -42,7 +42,7 @@ object SocketWindowWordCount {
 
     val summed: DataStream[(String, Int)] =
       wordAndOne
-        .keyBy(0)
+        .keyBy(_._1)
         .timeWindow(Time.seconds(5))
         .sum(1)
     summed.print("sum>>>   ")

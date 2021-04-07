@@ -28,7 +28,7 @@ object KeyByDemo1{
     val wordAndOne: DataStream[(String, Int)] = flatMap.map((_, 1))
 
 //    wordAndOne.print("wordAndOne >>> ")
-    val keyed: KeyedStream[(String, Int), Tuple] = wordAndOne.keyBy(0)
+    val keyed: KeyedStream[(String, Int), Tuple] = wordAndOne.keyBy(_._1)
 //    keyed.print("keyed >>> ")
     val summed: DataStream[(String, Int)] = keyed.sum(1)
     summed.print("summed >>>>>>>>>       ")

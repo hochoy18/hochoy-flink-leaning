@@ -38,7 +38,7 @@ object KafkaWindowWordCount {
         .filter(e => StringUtils.isNotBlank(e))
         .flatMap(_.split("\\s"))
         .filter(StringUtils.isNotBlank(_)).map((_, 1))
-        .keyBy(0)
+        .keyBy(_._1)
         .timeWindow(Time.seconds(5))
         .sum(1)
 
