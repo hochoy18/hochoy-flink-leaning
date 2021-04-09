@@ -3,7 +3,7 @@ package com.hochoy.flink.streaming.transform
 import com.hochoy.flink.sink.Constants
 import org.apache.commons.lang3.StringUtils
 import org.apache.flink.api.common.serialization.SimpleStringSchema
-import org.apache.flink.api.java.tuple.Tuple
+//import org.apache.flink.api.java.tuple.Tuple
 import org.apache.flink.api.scala.createTypeInformation
 import org.apache.flink.streaming.api.scala.{DataStream, KeyedStream, StreamExecutionEnvironment}
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011
@@ -28,9 +28,9 @@ object KeyByDemo1{
     val wordAndOne: DataStream[(String, Int)] = flatMap.map((_, 1))
 
 //    wordAndOne.print("wordAndOne >>> ")
-    val keyed: KeyedStream[(String, Int), Tuple] = wordAndOne.keyBy(_._1)
+//    val keyed: KeyedStream[(String, Int), Tuple] = wordAndOne.keyBy(_._1)
 //    keyed.print("keyed >>> ")
-    val summed: DataStream[(String, Int)] = keyed.sum(1)
+    val summed: DataStream[(String, Int)] = wordAndOne.keyBy(_._1).sum(1)
     summed.print("summed >>>>>>>>>       ")
 
     println
